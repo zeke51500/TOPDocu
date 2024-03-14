@@ -17,11 +17,13 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-   Test
-   Test2
-   Test3
-   Test4
-   Test5
+   
 * :ref:`modindex`
 * :ref:`search`
 * :ref:`search2`
+*Test
+*Test
+*Test2
+*Test3
+*Test4
+*Test5
