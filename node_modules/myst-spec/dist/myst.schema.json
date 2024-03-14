@@ -1,0 +1,1856 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://spec.myst.tools/json-schema/myst.schema.json",
+  "description": "Myst syntax tree built on existing mdast schemas",
+  "type": "object",
+  "allOf": [
+    {
+      "properties": {
+        "type": {
+          "const": "root"
+        },
+        "children": {
+          "description": "Top-level children of myst document",
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Block"
+                  },
+                  {
+                    "$ref": "#/$defs/BlockBreak"
+                  },
+                  {
+                    "$ref": "#/$defs/FlowContent"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ListContent"
+              }
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PhrasingContent"
+              }
+            }
+          ]
+        },
+        "position": {},
+        "data": {}
+      },
+      "additionalProperties": false
+    },
+    {
+      "$ref": "#/$defs/Parent"
+    }
+  ],
+  "$defs": {
+    "FlowContent": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Paragraph"
+        },
+        {
+          "$ref": "#/$defs/Definition"
+        },
+        {
+          "$ref": "#/$defs/Heading"
+        },
+        {
+          "$ref": "#/$defs/ThematicBreak"
+        },
+        {
+          "$ref": "#/$defs/Blockquote"
+        },
+        {
+          "$ref": "#/$defs/List"
+        },
+        {
+          "$ref": "#/$defs/HTML"
+        },
+        {
+          "$ref": "#/$defs/Code"
+        },
+        {
+          "$ref": "#/$defs/Comment"
+        },
+        {
+          "$ref": "#/$defs/Target"
+        },
+        {
+          "$ref": "#/$defs/Directive"
+        },
+        {
+          "$ref": "#/$defs/Admonition"
+        },
+        {
+          "$ref": "#/$defs/Container"
+        },
+        {
+          "$ref": "#/$defs/Math"
+        },
+        {
+          "$ref": "#/$defs/Table"
+        },
+        {
+          "$ref": "#/$defs/FootnoteDefinition"
+        }
+      ]
+    },
+    "ListContent": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ListItem"
+        }
+      ]
+    },
+    "PhrasingContent": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/StaticPhrasingContent"
+        },
+        {
+          "$ref": "#/$defs/Emphasis"
+        },
+        {
+          "$ref": "#/$defs/Strong"
+        },
+        {
+          "$ref": "#/$defs/Link"
+        },
+        {
+          "$ref": "#/$defs/LinkReference"
+        },
+        {
+          "$ref": "#/$defs/Subscript"
+        },
+        {
+          "$ref": "#/$defs/Superscript"
+        },
+        {
+          "$ref": "#/$defs/Underline"
+        },
+        {
+          "$ref": "#/$defs/Abbreviation"
+        },
+        {
+          "$ref": "#/$defs/CrossReference"
+        },
+        {
+          "$ref": "#/$defs/FootnoteReference"
+        }
+      ]
+    },
+    "StaticPhrasingContent": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Text"
+        },
+        {
+          "$ref": "#/$defs/HTML"
+        },
+        {
+          "$ref": "#/$defs/EmphasisStatic"
+        },
+        {
+          "$ref": "#/$defs/StrongStatic"
+        },
+        {
+          "$ref": "#/$defs/InlineCode"
+        },
+        {
+          "$ref": "#/$defs/Break"
+        },
+        {
+          "$ref": "#/$defs/Image"
+        },
+        {
+          "$ref": "#/$defs/ImageReference"
+        },
+        {
+          "$ref": "#/$defs/Role"
+        },
+        {
+          "$ref": "#/$defs/SubscriptStatic"
+        },
+        {
+          "$ref": "#/$defs/SuperscriptStatic"
+        },
+        {
+          "$ref": "#/$defs/UnderlineStatic"
+        },
+        {
+          "$ref": "#/$defs/InlineMath"
+        }
+      ]
+    },
+    "BlockBreak": {
+      "type": "object",
+      "description": "Top-level break in the myst document, breaking it into Blocks",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "blockBreak"
+            },
+            "meta": {
+              "description": "Block metadata. Conventionally this is a stringified JSON dictionary but it may be any arbitrary string.",
+              "type": "string"
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Node"
+        }
+      ]
+    },
+    "Block": {
+      "type": "object",
+      "description": "Top-level content blocks or cells the myst document, delimited by BlockBreaks",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "block"
+            },
+            "meta": {
+              "description": "block metadata from preceding break; conventionally, a stringified JSON dictionary but may be any arbitrary string",
+              "type": "string"
+            },
+            "children": {
+              "description": "Top-level children of myst document",
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/FlowContent"
+                  }
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/ListContent"
+                  }
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/PhrasingContent"
+                  }
+                }
+              ]
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Node"
+        }
+      ]
+    },
+    "Role": {
+      "description": "Custom in-line behavior",
+      "type": "object",
+      "allOf": [
+        {
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "type": {
+              "const": "mystRole"
+            },
+            "name": {
+              "type": "string"
+            },
+            "value": {
+              "description": "content of the directive",
+              "type": "string"
+            },
+            "children": {
+              "description": "parsed role content",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PhrasingContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Node"
+        }
+      ]
+    },
+    "Directive": {
+      "description": "Content block with predefined behavior",
+      "type": "object",
+      "allOf": [
+        {
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "type": {
+              "const": "mystDirective"
+            },
+            "name": {
+              "type": "string"
+            },
+            "args": {
+              "type": "string"
+            },
+            "options": {
+              "type": "object"
+            },
+            "value": {
+              "description": "body of the directive, excluding options",
+              "type": "string"
+            },
+            "children": {
+              "description": "parsed directive content",
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/FlowContent"
+                  },
+                  {
+                    "$ref": "#/$defs/PhrasingContent"
+                  }
+                ]
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Node"
+        }
+      ]
+    },
+    "Target": {
+      "description": "Target node - provides identifier/label for the following node",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "mystTarget"
+            },
+            "label": {
+              "description": "unresolved target label",
+              "type": "string"
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Node"
+        }
+      ]
+    },
+    "CrossReference": {
+      "description": "In-line reference to an associated node",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "crossReference"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "eq",
+                "numref",
+                "ref"
+              ],
+              "description": "Indicates if the references should be numbered.\n```{warning}\nThe `kind` was based on docutils and is subject to change as we improve the `crossReference` experience.\n```"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/StaticPhrasingContent"
+              },
+              "description": "Children of the crossReference, can include text with \"%s\" or \"{number}\" and enumerated references will be filled in."
+            },
+            "identifier": {},
+            "label": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Association"
+        },
+        {
+          "$ref": "#/$defs/Node"
+        }
+      ]
+    },
+    "Abbreviation": {
+      "description": "Abbreviation node described by title",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "abbreviation"
+            },
+            "children": {
+              "description": "abbreviated value",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/StaticPhrasingContent"
+              }
+            },
+            "title": {
+              "description": "advisory information for the abbreviation",
+              "type": "string"
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "Admonition": {
+      "description": "Admonition node for drawing attention to text, separate from the neighboring content",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "admonition"
+            },
+            "kind": {
+              "description": "kind of admonition, to determine styling",
+              "type": "string",
+              "enum": [
+                "attention",
+                "caution",
+                "danger",
+                "error",
+                "hint",
+                "important",
+                "note",
+                "seealso",
+                "tip",
+                "warning"
+              ]
+            },
+            "class": {
+              "description": "admonition class info to override kind",
+              "type": "string"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/AdmonitionTitle"
+                  },
+                  {
+                    "$ref": "#/$defs/FlowContent"
+                  }
+                ]
+              },
+              "description": "An optional `admonitionTitle` followed by the admonitions content."
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Node"
+        }
+      ]
+    },
+    "AdmonitionTitle": {
+      "description": "Custom title for admonition, replaces kind as title",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "admonitionTitle"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PhrasingContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "Container": {
+      "description": "Top-level container node to provide association and numbering to child content",
+      "type": "object",
+      "allOf": [
+        {
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "type": {
+              "const": "container"
+            },
+            "kind": {
+              "description": "kind of container contents",
+              "type": "string",
+              "enum": [
+                "figure",
+                "table"
+              ]
+            },
+            "class": {
+              "description": "any custom class information",
+              "type": "string"
+            },
+            "enumerated": {
+              "description": "count this container for numbering based on kind, e.g. Figure 1a",
+              "type": "boolean"
+            },
+            "enumerator": {
+              "description": "resolved enumerated value for this container",
+              "type": "string"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Caption"
+                  },
+                  {
+                    "$ref": "#/$defs/Legend"
+                  },
+                  {
+                    "$ref": "#/$defs/Image"
+                  },
+                  {
+                    "$ref": "#/$defs/Table"
+                  }
+                ]
+              }
+            },
+            "identifier": {},
+            "label": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "figure"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "children": {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/Caption"
+                    },
+                    {
+                      "$ref": "#/$defs/Legend"
+                    },
+                    {
+                      "$ref": "#/$defs/Image"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "children": {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/Caption"
+                    },
+                    {
+                      "$ref": "#/$defs/Legend"
+                    },
+                    {
+                      "$ref": "#/$defs/Table"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/OptionalAssociation"
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "Caption": {
+      "description": "Caption for container content",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "caption"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/FlowContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "Legend": {
+      "description": "Legend for container content",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "legend"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/FlowContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "FootnoteReference": {
+      "description": "Inline reference to footnote",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "footnoteReference"
+            },
+            "identifier": {},
+            "label": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Association"
+        },
+        {
+          "$ref": "#/$defs/Node"
+        }
+      ]
+    },
+    "FootnoteDefinition": {
+      "description": "Rich footnote content associated with footnote reference",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "footnoteDefinition"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/FlowContent"
+              }
+            },
+            "identifier": {},
+            "label": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Association"
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "Math": {
+      "description": "Math node for presenting numbered equations",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "math"
+            },
+            "enumerated": {
+              "description": "count this math block for numbering based on kind, e.g. See equation (1a)",
+              "type": "boolean"
+            },
+            "enumerator": {
+              "description": "resolved enumerated value for this math block",
+              "type": "string"
+            },
+            "identifier": {},
+            "label": {},
+            "value": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/OptionalAssociation"
+        },
+        {
+          "$ref": "#/$defs/Literal"
+        }
+      ]
+    },
+    "InlineMath": {
+      "description": "Fragment of math, similar to InlineCode, using role {math}",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "inlineMath"
+            },
+            "value": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Literal"
+        }
+      ]
+    },
+    "Table": {
+      "description": "Two-dimensional table data",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "table"
+            },
+            "align": {
+              "type": "string",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ]
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/TableRow"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "TableRow": {
+      "description": "One row of table containing cells",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "tableRow"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/TableCell"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "TableCell": {
+      "description": "One cell of table",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "tableCell"
+            },
+            "header": {
+              "type": "boolean"
+            },
+            "align": {
+              "description": "alignment of content within cell",
+              "type": "string",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ]
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PhrasingContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "Subscript": {
+      "description": "Subscript content, using role {subscript}",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "subscript"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PhrasingContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "SubscriptStatic": {
+      "description": "Subscript content, with static children; used when parent node requires static content",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "subscript"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/StaticPhrasingContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "Superscript": {
+      "description": "Superscript content, using role {superscript}",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "superscript"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PhrasingContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "SuperscriptStatic": {
+      "description": "Superscript content, with static children; used when parent node requires static content",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "superscript"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/StaticPhrasingContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "Underline": {
+      "description": "Underline content, using role {underline}",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "underline"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PhrasingContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "UnderlineStatic": {
+      "description": "Underline content, with static children; used when parent node requires static content",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "underline"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/StaticPhrasingContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "Comment": {
+      "description": "Comment nodes for comments present in myst but ignored upon render",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "mystComment"
+            },
+            "value": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Literal"
+        }
+      ]
+    },
+    "Paragraph": {
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "paragraph"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PhrasingContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "Heading": {
+      "type": "object",
+      "allOf": [
+        {
+          "required": [
+            "depth"
+          ],
+          "properties": {
+            "type": {
+              "const": "heading"
+            },
+            "depth": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 6
+            },
+            "enumerated": {
+              "description": "count this heading for numbering based on kind, e.g. Section 2.4.1",
+              "type": "boolean"
+            },
+            "enumerator": {
+              "description": "resolved enumerated value for this heading",
+              "type": "string"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PhrasingContent"
+              }
+            },
+            "identifier": {},
+            "label": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        },
+        {
+          "$ref": "#/$defs/OptionalAssociation"
+        }
+      ]
+    },
+    "ThematicBreak": {
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "thematicBreak"
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Node"
+        }
+      ]
+    },
+    "Blockquote": {
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "blockquote"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/FlowContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "List": {
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "list"
+            },
+            "ordered": {
+              "description": "Is item order important or not?",
+              "type": "boolean"
+            },
+            "start": {
+              "description": "Starting number of ordered list",
+              "type": "integer"
+            },
+            "spread": {
+              "description": "One or more children are separated with a blank line from others",
+              "type": "boolean"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ListContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "ListItem": {
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "listItem"
+            },
+            "spread": {
+              "description": "One or more children are separated with a blank line from others",
+              "type": "boolean"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/PhrasingContent"
+                  },
+                  {
+                    "$ref": "#/$defs/FlowContent"
+                  }
+                ]
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "HTML": {
+      "description": "Fragment of raw HTML - does not need to be valid or complete",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "html"
+            },
+            "value": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Literal"
+        }
+      ]
+    },
+    "Code": {
+      "description": "Block of preformatted text",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "code"
+            },
+            "lang": {
+              "description": "language of the code",
+              "type": "string"
+            },
+            "meta": {
+              "description": "custom information relating to the node",
+              "type": "string"
+            },
+            "class": {
+              "description": "user-defined class for code block",
+              "type": "string"
+            },
+            "showLineNumbers": {
+              "type": "boolean"
+            },
+            "startingLineNumber": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "emphasizeLines": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "identifier": {},
+            "label": {},
+            "value": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "if": {
+            "required": [
+              "meta"
+            ]
+          },
+          "then": {
+            "required": [
+              "lang"
+            ]
+          },
+          "else": {}
+        },
+        {
+          "if": {
+            "required": [
+              "startingLineNumber"
+            ]
+          },
+          "then": {
+            "required": [
+              "showLineNumbers"
+            ]
+          },
+          "else": {}
+        },
+        {
+          "$ref": "#/$defs/OptionalAssociation"
+        },
+        {
+          "$ref": "#/$defs/Literal"
+        }
+      ]
+    },
+    "Definition": {
+      "description": "Reference to a url resource",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "definition"
+            },
+            "identifier": {},
+            "label": {},
+            "url": {},
+            "title": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Association"
+        },
+        {
+          "$ref": "#/$defs/Resource"
+        },
+        {
+          "$ref": "#/$defs/Node"
+        }
+      ]
+    },
+    "Text": {
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "text"
+            },
+            "value": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Literal"
+        }
+      ]
+    },
+    "Emphasis": {
+      "description": "Stressed, italicized content",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "emphasis"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PhrasingContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "EmphasisStatic": {
+      "description": "Stressed, italicized content, with static children; used when parent node requires static content",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "emphasis"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/StaticPhrasingContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "Strong": {
+      "description": "Important, serious, urgent, bold content",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "strong"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PhrasingContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "StrongStatic": {
+      "description": "Important, serious, urgent, bold content, with static children; used when parent node requires static content",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "strong"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/StaticPhrasingContent"
+              }
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "InlineCode": {
+      "description": "Fragment of code",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "inlineCode"
+            },
+            "value": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Literal"
+        }
+      ]
+    },
+    "Break": {
+      "description": "Line break",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "break"
+            },
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Node"
+        }
+      ]
+    },
+    "Link": {
+      "description": "Hyperlink",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "link"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/StaticPhrasingContent"
+              }
+            },
+            "url": {},
+            "title": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Resource"
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "Image": {
+      "description": "Image hyperlink",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "image"
+            },
+            "class": {
+              "description": "user-defined class for image",
+              "type": "string"
+            },
+            "width": {
+              "description": "image width in pixels or percentage",
+              "type": "string"
+            },
+            "align": {
+              "type": "string",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ]
+            },
+            "url": {},
+            "title": {},
+            "alt": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Resource"
+        },
+        {
+          "$ref": "#/$defs/Alternative"
+        },
+        {
+          "$ref": "#/$defs/Node"
+        }
+      ]
+    },
+    "LinkReference": {
+      "description": "Hyperlink through association",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "linkReference"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/StaticPhrasingContent"
+              }
+            },
+            "referenceType": {},
+            "identifier": {},
+            "label": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Reference"
+        },
+        {
+          "$ref": "#/$defs/Association"
+        },
+        {
+          "$ref": "#/$defs/Parent"
+        }
+      ]
+    },
+    "ImageReference": {
+      "description": "Image through association",
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "imageReference"
+            },
+            "referenceType": {},
+            "identifier": {},
+            "label": {},
+            "alt": {},
+            "position": {},
+            "data": {}
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Reference"
+        },
+        {
+          "$ref": "#/$defs/Association"
+        },
+        {
+          "$ref": "#/$defs/Alternative"
+        },
+        {
+          "$ref": "#/$defs/Node"
+        }
+      ]
+    },
+    "Resource": {
+      "description": "Reference to external resource",
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "A Uniform Resource Locator (URL) to an external resource or link."
+        },
+        "title": {
+          "description": "advisory information, e.g. for a tooltip",
+          "type": "string"
+        }
+      }
+    },
+    "OptionalAssociation": {
+      "description": "Internal relation from one node to another; not required by node",
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "description": "identifier that may match another node; value is unparsed and must be normalized such that whitespace is collapsed to single space, initial/final space is trimmed, and case is folded",
+          "type": "string"
+        },
+        "label": {
+          "description": "node label; character escapes and references are parsed; may be normalized to a unique identifier",
+          "type": "string"
+        }
+      }
+    },
+    "Association": {
+      "description": "Internal relation from one node to another",
+      "type": "object",
+      "allOf": [
+        {
+          "required": [
+            "identifier"
+          ],
+          "properties": {
+            "identifier": {}
+          }
+        },
+        {
+          "$ref": "#/$defs/OptionalAssociation"
+        }
+      ]
+    },
+    "Alternative": {
+      "description": "Alternative description of image",
+      "type": "object",
+      "properties": {
+        "alt": {
+          "description": "field describing the image",
+          "type": "string"
+        }
+      }
+    },
+    "Reference": {
+      "description": "Marker associated to another node",
+      "type": "object",
+      "required": [
+        "referenceType"
+      ],
+      "properties": {
+        "referenceType": {
+          "description": "explicitness of the reference:\n`shortcut` - reference is implicit, identifier inferred\n`collapsed` - reference explicit, identifier inferred\n`full` - reference explicit, identifier explicit",
+          "type": "string",
+          "enum": [
+            "shortcut",
+            "collapsed",
+            "full"
+          ]
+        }
+      }
+    },
+    "Node": {
+      "description": "Base node object, based on the [unist](https://github.com/syntax-tree/unist) syntax tree.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "description": "identifier for node variant",
+          "type": "string"
+        },
+        "data": {
+          "description": "information associated by the ecosystem with the node; never specified by mdast",
+          "type": "object"
+        },
+        "position": {
+          "description": "location of node in source file; must not be present for generated nodes",
+          "$ref": "#/$defs/Position"
+        }
+      }
+    },
+    "Literal": {
+      "description": "Basic node with required string value",
+      "type": "object",
+      "allOf": [
+        {
+          "required": [
+            "value"
+          ],
+          "properties": {
+            "value": {
+              "type": "string",
+              "description": "The value of the node"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/Node"
+        }
+      ]
+    },
+    "Parent": {
+      "description": "Basic node with required node children",
+      "type": "object",
+      "allOf": [
+        {
+          "required": [
+            "children"
+          ],
+          "properties": {
+            "children": {
+              "type": "array",
+              "description": "List of children nodes",
+              "items": {
+                "$ref": "#/$defs/Node"
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/Node"
+        }
+      ]
+    },
+    "Point": {
+      "description": "One place in a source file",
+      "type": "object",
+      "required": [
+        "line",
+        "column"
+      ],
+      "properties": {
+        "line": {
+          "description": "line in the source file, 1-indexed",
+          "type": "integer",
+          "minimum": 1
+        },
+        "column": {
+          "description": "column in the source file, 1-indexed",
+          "type": "integer",
+          "minimum": 1
+        },
+        "offset": {
+          "description": "offset character in the source file, 0-indexed",
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "Position": {
+      "description": "Location of a node in a source file",
+      "type": "object",
+      "required": [
+        "start",
+        "end"
+      ],
+      "properties": {
+        "start": {
+          "description": "place of first character of parsed source region",
+          "$ref": "#/$defs/Point"
+        },
+        "end": {
+          "description": "place of first character after parsed source region, whether it exists or not",
+          "$ref": "#/$defs/Point"
+        },
+        "indent": {
+          "description": "start column at each index in the source region, for elements that span multiple lines",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
