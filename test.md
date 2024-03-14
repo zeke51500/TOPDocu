@@ -17,6 +17,7 @@ Du kannst Aufzählungen erstellen, indem du `-` oder `*` vor den Listenelementen
 - Element 1
 - Element 2
 - Element 3
+* Element 4
 
 ## Links
 
