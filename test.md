@@ -27,8 +27,8 @@ Du kannst Links erstellen, indem du den Linktext in eckige Klammern `[]` und die
 ## Codeblöcke
 
 Du kannst Codeblöcke erstellen, indem du den Code zwischen drei Backticks 
-` 
+``` 
 project = 'GeniusReply'
 copyright = '2024, Team1'
 author = 'Team1'
-` einfügst:
+``` einfügst:
