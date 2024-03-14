@@ -8,11 +8,7 @@ Welcome to GeniusReply's documentation!
 
 .. toctree::
    :maxdepth: 3
-   :caption: Contents: Test
-   Test2
-   Test3
-   Test4
-   Test5
+   :caption: Contents:
    
 
 
@@ -21,6 +17,11 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
+   Test
+   Test2
+   Test3
+   Test4
+   Test5
 * :ref:`modindex`
 * :ref:`search`
 * :ref:`search2`
