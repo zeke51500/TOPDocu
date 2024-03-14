@@ -9,5 +9,6 @@ Welcome to GeniusReply's documentation!
 .. toctree::
    :maxdepth: 4
    :caption: Contents:
-   
+
    test.md
+   geniusreply.md
