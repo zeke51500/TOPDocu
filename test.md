@@ -28,9 +28,18 @@ Du kannst Links erstellen, indem du den Linktext in eckige Klammern `[]` und die
 
 ## Codeblöcke
 
-Du kannst Codeblöcke erstellen, indem du den Code zwischen drei Backticks 
+Du kannst Codeblöcke erstellen, indem du den Code zwischen drei Backticks einfügst:
+```
+app.post("/dashchromadb", (req, res) => {
+  let bInsert = true;
+  let oChromaInsertData = {
+    body: req.body.response,
+    prompt: "",
+    ab_oder_zusage: "",
+    action: "insert",
+  };
+  console.log("Dash to ChromaDB data: ", req.body);
+  sendMailToPythonScript(oChromaInsertData, "", "", bInsert);
+  res.send("ChromaDB insert OK. ChromaDB size approximately: " + sLastChromaSize);
+});
 ``` 
-project = 'GeniusReply'
-copyright = '2024, Team1'
-author = 'Team1'
-``` einfügst:
