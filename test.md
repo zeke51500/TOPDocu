@@ -22,7 +22,7 @@ Du kannst Aufzählungen erstellen, indem du `-` oder `*` vor den Listenelementen
 
 Du kannst Links erstellen, indem du den Linktext in eckige Klammern `[]` und die URL in runde Klammern `()` setzt:
 
-[GitHub](https://github.com)
+[GitHub](geniusreply.md)
 
 ## Codeblöcke
 
