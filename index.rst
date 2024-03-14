@@ -10,5 +10,4 @@ Welcome to GeniusReply's documentation!
    :maxdepth: 4
    :caption: Contents:
    
-   index.md
    test.md
