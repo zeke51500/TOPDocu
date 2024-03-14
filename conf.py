@@ -45,7 +45,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 #
 html_theme = 'classic'
 html_theme_options = {
-    "sidebarbgcolor": "purple",
+   
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
