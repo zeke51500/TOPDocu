@@ -1,2 +1,1 @@
-[Link zur anderen Markdown-Datei](test.md).
-
+[Link zur anderen Markdown-Datei](test.md)
