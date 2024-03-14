@@ -8,12 +8,12 @@ Welcome to GeniusReply's documentation!
 
 .. toctree::
    :maxdepth: 3
-   :caption: Contents:
-   Test
+   :caption: Contents: Test
    Test2
    Test3
    Test4
    Test5
+   
 
 
 
